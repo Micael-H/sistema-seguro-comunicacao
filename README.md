@@ -9,4 +9,4 @@ Este projeto tem como objetivo desenvolver um sistema de comunicação seguro, g
 - `/src` → Pasta reservada para o código-fonte.
 
 ---
-Autor: [Seu Nome]
+Autores: Bruno Donadei, Fábio Vasconcelos, Gustavo Soares e Micael Humberto
