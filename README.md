@@ -1,12 +1,18 @@
-# Sistema Seguro de Comunicação
+# Esboço do Projeto
 
-Este projeto tem como objetivo desenvolver um sistema de comunicação seguro, garantindo a proteção de dados e a privacidade dos usuários.
+## Objetivo do Projeto
 
-## Estrutura do Repositório
+Segurança na comunicação entre funcionários.
 
-- `/docs` → Armazena documentos do planejamento.
-- `/diagrams` → Guarda fluxogramas e desenhos do sistema.
-- `/src` → Pasta reservada para o código-fonte.
+## Tecnologias Utilizadas
 
----
-Autores: Bruno Donadei, Fábio Vasconcelos, Gustavo Soares e Micael Humberto
+- **bcrypt**: Hashing seguro de senhas.
+- **PyJWT**: Autenticação via Tokens JWT.
+- **cryptography**: Implementação de AES e RSA.
+
+## Fluxo Básico do Sistema
+
+1. Usuário faz cadastro (senha armazenada com bcrypt).
+2. Usuário faz login (autenticado via JWT).
+3. Usuário envia uma mensagem criptografada com AES.
+4. Apenas o destinatário correto pode descriptografar com sua chave RSA.
