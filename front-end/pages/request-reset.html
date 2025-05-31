@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../style.css" />
+    <title>Sistema de Usuários</title>
+  </head>
+  <body>
+    <header>
+      <h1><a href="../index.html">Sistema de Usuários</a></h1>
+    </header>
+    <div class="form-container">
+      <h1 class="title">Recuperação de senha</h1>
+      <form id="form">
+        <input id="email" placeholder="Digite seu e-mail" />
+        <button type="submit">Solicitar redefinição</button>
+      </form>
+    </div>
+    <p id="linkContainer"></p>
+    <script>
+      document.getElementById("form").addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const email = document.getElementById("email").value;
+
+        const res = await fetch("http://localhost:3000/auth/request-reset", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email }),
+        });
+
+        const data = await res.json();
+        if (data.resetLink) {
+          document.getElementById("linkContainer").innerHTML = `
+      <p>Link gerado:</p>
+      <a href="${data.resetLink}">${data.resetLink}</a>
+      `;
+        } else {
+          alert(data.message);
+        }
+      });
+    </script>
+  </body>
+</html>

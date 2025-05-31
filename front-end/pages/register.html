@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../style.css" />
+    <title>Sistema de Usuários</title>
+  </head>
+  <body>
+    <header>
+      <h1><a href="../index.html">Sistema de Usuários</a></h1>
+    </header>
+    <div class="form-container">
+      <h1 style="font-weight: 500" class="title">Cadastro</h1>
+      <form id="form-register">
+        <div>
+          <input id="name-register" placeholder="Insira seu nome" type="text" />
+          <span id="error-message-name" class="error"></span>
+        </div>
+        <div>
+          <input
+            id="email-register"
+            placeholder="Insira seu email"
+            type="text"
+          />
+          <span id="error-message-email" class="error"></span>
+        </div>
+        <div>
+          <input
+            id="password-register"
+            placeholder="Crie uma senha"
+            type="password"
+          />
+          <span id="error-message-password" class="error"></span>
+        </div>
+        <button type="submit">Cadastrar agora</button>
+        <span style="text-align: center"
+          >Já tem uma conta?
+          <a href="/front-end/pages/login.html">Entre agora</a></span
+        >
+      </form>
+    </div>
+    <script type="text/javascript">
+      const formRegister = document.querySelector("#form-register");
+      const nameRegister = document.querySelector("#name-register");
+      const emailRegister = document.querySelector("#email-register");
+      const passwordRegister = document.querySelector("#password-register");
+      const errorMessageName = document.querySelector("#error-message-name");
+      const errorMessageEmail = document.querySelector("#error-message-email");
+      const errorMessagePassword = document.querySelector(
+        "#error-message-password"
+      );
+
+      formRegister.addEventListener("submit", async (event) => {
+        event.preventDefault();
+
+        let hasError = false;
+
+        if (!nameRegister.value.trim()) {
+          errorMessageName.innerHTML = "Nome obrigatório!";
+          hasError = true;
+        } else {
+          errorMessageName.innerHTML = "";
+        }
+
+        if (!emailRegister.value.trim()) {
+          errorMessageEmail.innerHTML = "Email obrigatório!";
+          hasError = true;
+        } else if (!/@/.test(emailRegister.value.trim())) {
+          errorMessageEmail.innerHTML = "Inclua um '@' no endereço de email.";
+          hasError = true;
+        } else {
+          errorMessageEmail.innerHTML = "";
+        }
+
+        if (!passwordRegister.value.trim()) {
+          errorMessagePassword.innerHTML = "Senha obrigatória!";
+          hasError = true;
+        } else {
+          errorMessagePassword.innerHTML = "";
+        }
+
+        if (hasError) return;
+
+        const payload = {
+          name: nameRegister.value,
+          email: emailRegister.value,
+          password: passwordRegister.value,
+        };
+
+        try {
+          const res = await fetch("http://localhost:3000/auth/register", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(payload),
+          });
+
+          if (!res.ok) throw new Error("Erro ao enviar dados");
+          const data = await res.json();
+
+          window.location.replace("./login.html");
+        } catch (error) {
+          console.error(error.message);
+        }
+      });
+    </script>
+  </body>
+</html>
