@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./style.css" />
+    <title>Sistema de Usuários</title>
+  </head>
+  <body>
+    <header>
+      <h1>Sistema de Usuários</h1>
+      <button id="logout-btn">Sair</button>
+    </header>
+
+    <div style="width: 100%" class="form-container">
+      <h1 style="font-weight: 500" class="title">Informações do usuário</h1>
+      <form id="form-delete">
+        <div id="user-info"></div>
+        <div style="display: flex; gap: 5px">
+          <button style="width: 100%" type="submit" class="delete">
+            Deletar conta
+          </button>
+          <button style="width: 100%" type="button" id="see-logs">
+            Ver logs
+          </button>
+        </div>
+      </form>
+    </div>
+    <div class="form-container" id="logs" style="display: none; width: 100%">
+      <h1 class="title">Logs</h1>
+      <form id="form-log">
+        <div
+          id="log-info"
+          style="display: flex; flex-direction: column; gap: 7px"
+        ></div>
+      </form>
+    </div>
+    <script src="./main.js"></script>
+    <script type="text/javascript">
+      const form = document.getElementById("form-delete");
+
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        const confirmDelete = confirm(
+          "Tem certeza que deseja excluir sua conta?"
+        );
+        if (!confirmDelete) return;
+
+        const token = localStorage.getItem("token");
+
+        if (!token) {
+          alert("Você não está autenticado.");
+          return;
+        }
+
+        try {
+          const response = await fetch(
+            "http://localhost:3000/auth/delete-account",
+            {
+              method: "PUT",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: "Bearer " + token,
+              },
+            }
+          );
+
+          if (!response.ok) {
+            const data = await response.json();
+            throw new Error(data.message || "Erro ao excluir conta.");
+          }
+
+          alert("Conta excluída com sucesso.");
+          localStorage.removeItem("token");
+          window.location.replace("./pages/login.html");
+        } catch (err) {
+          alert(err.message);
+        }
+      });
+
+      const token = localStorage.getItem("token");
+
+      if (!token) {
+        window.location.href = "/front-end/pages/login.html";
+      }
+
+      var logData = null;
+      var userData = null;
+      let showingLogs = false;
+
+      const logBtn = document.getElementById("see-logs");
+
+      logBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        let html = "";
+
+        const logContainer = document.getElementById("logs");
+        const logElement = document.getElementById("log-info");
+
+        if (showingLogs) {
+          logContainer.style.display = "none";
+          logBtn.innerText = "Ver logs";
+          showingLogs = false;
+          return;
+        }
+
+        const options = {
+          timeZone: "America/Sao_Paulo",
+          day: "2-digit",
+          month: "2-digit",
+          year: "numeric",
+          hour: "2-digit",
+          minute: "2-digit",
+          second: "2-digit",
+        };
+
+        const endpoint =
+          userData.role.name === "admin"
+            ? "http://localhost:3000/log/all"
+            : "http://localhost:3000/log/my";
+
+        fetch(endpoint, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            const logs = data.logs;
+            logs.forEach((log) => {
+              html += `
+              <div style="
+                background: #f9f9f9;
+                border-left: 4px solid #4CAF50;
+                padding: 10px;
+                border-radius: 5px;
+              ">
+              ${
+                log.user?.name
+                  ? `<p><b style="font-weight: bold">Usuário:</b> ${log.user.name}</p>`
+                  : ""
+              }
+              ${
+                log.user?.email
+                  ? `<p><b style="font-weight: bold">Email:</b> ${log.user.email}</p>`
+                  : ""
+              }
+              <p><b style="font-weight: bold">Ação:</b> ${log.action}</p>
+              <p><b style="font-weight: bold">Quando:</b> ${new Date(
+                log.timestamp
+              ).toLocaleString("pt-BR")}</p>
+              </div>
+        `;
+            });
+
+            logElement.innerHTML = html;
+            logContainer.style.display = "block";
+            logBtn.innerText = "Ocultar logs";
+            showingLogs = true;
+          })
+          .catch((err) => {
+            console.error("Erro ao buscar logs", err);
+            alert("Erro ao carregar logs.");
+          });
+      });
+
+      fetch("http://localhost:3000/user/me", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          userData = data.user;
+
+          const userElement = document.getElementById("user-info");
+          userElement.innerHTML = `
+          <h2 style="font-size: 18px; margin-bottom: 10px">Bem-vindo, <b style="font-weight: bolder">${
+            userData.name
+          }</b></h2>
+          <p style="margin-bottom: 5px"><b style="font-weight: bolder">Email:</b> ${
+            userData.email
+          }</p>
+          <p style="margin-bottom: 5px"><b style="font-weight: bolder">Função:</b> ${
+            userData.role.name
+          }</p>
+          <p><b style="font-weight: bolder">Criado em:</b> ${new Date(
+            userData.createdAt
+          ).toLocaleString("pt-BR")}</p>
+          `;
+        })
+        .catch((err) => {
+          console.error("Erro ao buscar dados do usuário", err);
+          alert("Erro de autenticação. Faça login novamente.");
+          window.location.href = "/front-end/pages/login.html";
+        });
+    </script>
+  </body>
+</html>
