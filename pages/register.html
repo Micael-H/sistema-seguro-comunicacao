@@ -8,7 +8,12 @@
   </head>
   <body>
     <header>
-      <h1><a href="../index.html">Sistema de Usuários</a></h1>
+      <h1>
+        <a
+          href="https://micael-h.github.io/sistema-seguro-comunicacao/index.html"
+          >Sistema de Usuários</a
+        >
+      </h1>
     </header>
     <div class="form-container">
       <h1 style="font-weight: 500" class="title">Cadastro</h1>
@@ -35,11 +40,17 @@
         </div>
         <button type="submit">Cadastrar agora</button>
         <span style="text-align: center"
-          >Já tem uma conta? <a href="/pages/login.html">Entre agora</a></span
+          >Já tem uma conta?
+          <a
+            href="https://micael-h.github.io/sistema-seguro-comunicacao/pages/login.html"
+            >Entre agora</a
+          ></span
         >
       </form>
     </div>
+    <script src="../env.js"></script>
     <script type="text/javascript">
+      const BASE_URL = process.env.FRONTEND_URL;
       const formRegister = document.querySelector("#form-register");
       const nameRegister = document.querySelector("#name-register");
       const emailRegister = document.querySelector("#email-register");
@@ -102,7 +113,7 @@
           if (!res.ok) throw new Error("Erro ao enviar dados");
           const data = await res.json();
 
-          window.location.replace("./login.html");
+          window.location.replace(`${BASE_URL}/pages/login.html`);
         } catch (error) {
           console.error(error.message);
         }
