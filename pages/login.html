@@ -47,10 +47,8 @@
         >
       </form>
     </div>
-    <script src="../env.js"></script>
-
     <script type="text/javascript">
-      const BASE_URL = process.env.FRONTEND_URL;
+      const BASE_URL = window.ENV.BASE_URL;
       const formLogin = document.querySelector("#form-login");
       const emailLogin = document.querySelector("#email-login");
       const passwordLogin = document.querySelector("#password-login");
@@ -104,7 +102,9 @@
 
           const data = await res.json();
           localStorage.setItem("token", data.token);
-          window.location.replace(`${BASE_URL}/index.html`);
+          window.location.replace(
+            "https://micael-h.github.io/sistema-seguro-comunicacao/index.html"
+          );
         } catch (error) {
           console.error(error.message);
         }

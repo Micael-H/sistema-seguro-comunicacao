@@ -36,10 +36,8 @@
       </form>
     </div>
     <script src="./main.js"></script>
-    <script src="./env.js"></script>
     <script type="text/javascript">
       const form = document.getElementById("form-delete");
-      const BASE_URL = process.env.FRONTEND_URL;
 
       form.addEventListener("submit", async (e) => {
         e.preventDefault();
@@ -75,7 +73,9 @@
 
           alert("Conta excluída com sucesso.");
           localStorage.removeItem("token");
-          window.location.replace(`${BASE_URL}/pages/login.html`);
+          window.location.replace(
+            "https://micael-h.github.io/sistema-seguro-comunicacao/pages/login.html"
+          );
         } catch (err) {
           alert(err.message);
         }
@@ -84,7 +84,9 @@
       const token = localStorage.getItem("token");
 
       if (!token) {
-        window.location.href = `${BASE_URL}/pages/login.html`;
+        window.location.replace(
+          "https://micael-h.github.io/sistema-seguro-comunicacao/pages/login.html"
+        );
       }
 
       var logData = null;
@@ -195,7 +197,9 @@
         .catch((err) => {
           console.error("Erro ao buscar dados do usuário", err);
           alert("Erro de autenticação. Faça login novamente.");
-          window.location.href = `${BASE_URL}/pages/login.html`;
+          window.location.replace(
+            "https://micael-h.github.io/sistema-seguro-comunicacao/pages/login.html"
+          );
         });
     </script>
   </body>

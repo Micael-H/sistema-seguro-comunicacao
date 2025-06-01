@@ -113,7 +113,9 @@
           if (!res.ok) throw new Error("Erro ao enviar dados");
           const data = await res.json();
 
-          window.location.replace(`${BASE_URL}/pages/login.html`);
+          window.location.replace(
+            "https://micael-h.github.io/sistema-seguro-comunicacao/pages/login.html"
+          );
         } catch (error) {
           console.error(error.message);
         }
