@@ -28,11 +28,11 @@
         <button type="submit">Entrar</button>
         <span style="text-align: center"
           >Não tem uma conta ainda?
-          <a href="/front-end/pages/register.html">Cadastre-se</a></span
+          <a href="/pages/register.html">Cadastre-se</a></span
         >
         <span style="text-align: center"
           >Esqueceu sua senha?
-          <a href="/front-end/pages/request-reset.html">Redefinir</a></span
+          <a href="/pages/request-reset.html">Redefinir</a></span
         >
       </form>
     </div>
@@ -75,13 +75,16 @@
         };
 
         try {
-          const res = await fetch("http://localhost:3000/auth/login", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(payload),
-          });
+          const res = await fetch(
+            "https://sistema-seguro-comunicacao-4rw2.onrender.com/auth/login",
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(payload),
+            }
+          );
 
           if (!res.ok) throw new Error("Erro ao enviar dados");
 
