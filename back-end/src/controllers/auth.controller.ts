@@ -195,7 +195,7 @@ export const requestPasswordReset = async (
     },
   });
 
-  const resetLink = `http://localhost:5501/front-end/pages/reset-password.html?token=${token}`;
+  const resetLink = `https://https://micael-h.github.io/sistema-seguro-comunicacao/pages/reset-password.html?token=${token}`;
 
   return res.status(200).json({
     message: "Token gerado. Use o link abaixo para redefinir sua senha.",

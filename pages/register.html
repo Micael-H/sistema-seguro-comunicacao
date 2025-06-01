@@ -35,8 +35,7 @@
         </div>
         <button type="submit">Cadastrar agora</button>
         <span style="text-align: center"
-          >Já tem uma conta?
-          <a href="/front-end/pages/login.html">Entre agora</a></span
+          >Já tem uma conta? <a href="/pages/login.html">Entre agora</a></span
         >
       </form>
     </div>
@@ -89,13 +88,16 @@
         };
 
         try {
-          const res = await fetch("http://localhost:3000/auth/register", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(payload),
-          });
+          const res = await fetch(
+            "https://sistema-seguro-comunicacao-4rw2.onrender.com/auth/register",
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(payload),
+            }
+          );
 
           if (!res.ok) throw new Error("Erro ao enviar dados");
           const data = await res.json();

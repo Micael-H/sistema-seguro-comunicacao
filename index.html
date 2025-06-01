@@ -56,7 +56,7 @@
 
         try {
           const response = await fetch(
-            "http://localhost:3000/auth/delete-account",
+            "https://sistema-seguro-comunicacao-4rw2.onrender.com/auth/delete-account",
             {
               method: "PUT",
               headers: {
@@ -82,7 +82,7 @@
       const token = localStorage.getItem("token");
 
       if (!token) {
-        window.location.href = "/front-end/pages/login.html";
+        window.location.href = "/pages/login.html";
       }
 
       var logData = null;
@@ -117,8 +117,8 @@
 
         const endpoint =
           userData.role.name === "admin"
-            ? "http://localhost:3000/log/all"
-            : "http://localhost:3000/log/my";
+            ? "https://sistema-seguro-comunicacao-4rw2.onrender.com/log/all"
+            : "https://sistema-seguro-comunicacao-4rw2.onrender.com/log/my";
 
         fetch(endpoint, {
           headers: {
@@ -165,7 +165,7 @@
           });
       });
 
-      fetch("http://localhost:3000/user/me", {
+      fetch("https://sistema-seguro-comunicacao-4rw2.onrender.com/user/me", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -193,7 +193,7 @@
         .catch((err) => {
           console.error("Erro ao buscar dados do usuário", err);
           alert("Erro de autenticação. Faça login novamente.");
-          window.location.href = "/front-end/pages/login.html";
+          window.location.href = "/pages/login.html";
         });
     </script>
   </body>
